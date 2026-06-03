@@ -1,125 +1,43 @@
---- meson.build 2026-02-19 13:03:23.623413707 +0200
-+++ meson.build 2026-02-19 13:03:50.738686971 +0200
-@@ -37,6 +37,56 @@
-   'AdsLib/standalone/NotificationDispatcher.cpp',
- ])
- 
-+ads_root_headers = files(
-+  'AdsLib/AdsDef.h',
-+  'AdsLib/AdsDevice.h',
-+  'AdsLib/AdsException.h',
-+  'AdsLib/AdsFile.h',
-+  'AdsLib/AdsLib.h',
-+  'AdsLib/AdsNotification.h',
-+  'AdsLib/AdsNotificationOOI.h',
-+  'AdsLib/AdsVariable.h',
-+  'AdsLib/AmsConnection.h',
-+  'AdsLib/AmsHeader.h',
-+  'AdsLib/AmsPort.h',
-+  'AdsLib/AmsRouter.h',
-+  'AdsLib/Frame.h',
-+  'AdsLib/LicenseAccess.h',
-+  'AdsLib/Log.h',
-+  'AdsLib/NotificationDispatcher.h',
-+  'AdsLib/RegistryAccess.h',
-+  'AdsLib/RingBuffer.h',
-+  'AdsLib/RouterAccess.h',
-+  'AdsLib/Router.h',
-+  'AdsLib/RTimeAccess.h',
-+  'AdsLib/Semaphore.h',
-+  'AdsLib/Sockets.h',
-+  'AdsLib/SymbolAccess.h',
-+  'AdsLib/wrap_endian.h',
-+  'AdsLib/wrap_registry.h',
-+  'AdsLib/wrap_socket.h',
-+)
-+install_headers(ads_root_headers, subdir: 'AdsLib')
-+
-+bhf_headers = files(
-+  'AdsLib/bhf/ParameterList.h',
-+  'AdsLib/bhf/StringToInteger.h',
-+  'AdsLib/bhf/WindowsQuirks.h',
-+)
-+install_headers(bhf_headers, subdir: 'AdsLib/bhf')
-+
-+standalone_headers = files(
-+  'AdsLib/standalone/AdsDef.h',
-+  'AdsLib/standalone/AdsLib.h',
-+)
-+install_headers(standalone_headers, subdir: 'AdsLib/standalone')
-+
-+twincat_headers = files(
-+  'AdsLib/TwinCAT/AdsDef.h',
-+  'AdsLib/TwinCAT/AdsLib.h'
-+)
-+install_headers(twincat_headers, subdir: 'AdsLib/TwinCAT')
-+
- inc = include_directories([
-   'AdsLib',
-   'tools',
-@@ -47,9 +97,17 @@
+--- meson.build	2026-06-02 15:37:00.066523157 +0200
++++ meson.build	2026-06-02 15:37:19.509526815 +0200
+@@ -89,13 +89,20 @@
    dependency('threads'),
  ]
  
 -adslib = static_library('AdsLib',
 +adslib_static = static_library('AdsLib',
+   [common_files, router_files],
+   include_directories: inc,
+   install: true,
+ )
+ 
+-install_libs = [ adslib ]
++adslib = shared_library('AdsLib',
 +  [common_files, router_files],
 +  include_directories: inc,
++  dependencies: libs,
 +  install: true,
 +)
 +
-+adslib = shared_library('AdsLib',
-   [common_files, router_files],
-   include_directories: inc,
-+  dependencies: libs,
-+  install: true,
- )
++install_libs = [ adslib_static, adslib ]
  
  adslib_dep = declare_dependency(
-@@ -62,6 +120,9 @@
+   include_directories : inc,
+@@ -133,6 +140,8 @@
    include_directories: inc,
    dependencies: libs,
    link_with: adslib,
 +  install: true,
 +  install_dir: get_option('bindir'),
-+  install_rpath: get_option('libdir'),
- )
- 
- adslibooitest = executable('AdsLibOOITest',
-@@ -69,6 +130,9 @@
-   include_directories: inc,
-   dependencies: libs,
-   link_with: adslib,
-+  install: true,
-+  install_dir: get_option('bindir'),
-+  install_rpath: get_option('libdir'),
- )
- 
- adstool = executable('adstool',
-@@ -76,6 +140,9 @@
-   include_directories: inc,
-   dependencies: libs,
-   link_with: adslib,
-+  install: true,
-+  install_dir: get_option('bindir'),
-+  install_rpath: get_option('libdir'),
  )
  
  if get_option('tcadsdll_include') != ''
-@@ -86,6 +153,8 @@
-       get_option('tcadsdll_include'),
-       inc,
-     ],
-+    install: true,
-+    install_dir: get_option('libdir'),
-   )
- 
-   tcadsdll_deps = [
-@@ -104,5 +173,7 @@
+@@ -163,6 +173,8 @@
        tcadsdll_deps
      ],
      link_with: tcadslib,
 +    install: true,
 +    install_dir: get_option('bindir'),
    )
- endif
+ 
+   tcadstest = executable('tcAdsTest',
