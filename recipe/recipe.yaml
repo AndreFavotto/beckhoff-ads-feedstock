@@ -87,10 +87,10 @@ outputs:
           - test -f "${PREFIX}/include/AdsLib/TwinCAT/AdsLib.h"
           - if: linux
             then:
-              - test -f "${PREFIX}/lib/libadslib.so"
+              - test -f "${PREFIX}/lib/libAdsLib.so"
           - if: osx
             then:
-              - test -f "${PREFIX}/lib/libadslib.dylib"
+              - test -f "${PREFIX}/lib/libAdsLib.dylib"
           - adstool --help
 
   - package:
