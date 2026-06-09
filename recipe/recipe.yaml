@@ -15,7 +15,7 @@ source:
     - meson-build.patch
 
 build:
-  number: 0
+  number: 1
   skip:
     - win
   script: |
@@ -47,7 +47,43 @@ outputs:
     tests:
       - script:
           - test -d "${PREFIX}/include/AdsLib"
+          - test -d "${PREFIX}/include/AdsLib/bhf"
+          - test -d "${PREFIX}/include/AdsLib/standalone"
+          - test -d "${PREFIX}/include/AdsLib/TwinCAT"
+          - test -f "${PREFIX}/include/AdsLib/AdsDef.h"
+          - test -f "${PREFIX}/include/AdsLib/AdsNotification.h"
+          - test -f "${PREFIX}/include/AdsLib/AmsPort.h"
+          - test -f "${PREFIX}/include/AdsLib/NotificationDispatcher.h"
+          - test -f "${PREFIX}/include/AdsLib/RouterAccess.h"
+          - test -f "${PREFIX}/include/AdsLib/AdsDevice.h"
+          - test -f "${PREFIX}/include/AdsLib/AdsNotificationOOI.h"
+          - test -f "${PREFIX}/include/AdsLib/AmsRouter.h"
+          - test -f "${PREFIX}/include/AdsLib/RTimeAccess.h"
+          - test -f "${PREFIX}/include/AdsLib/Semaphore.h"
+          - test -f "${PREFIX}/include/AdsLib/AdsException.h"
+          - test -f "${PREFIX}/include/AdsLib/AdsVariable.h"
+          - test -f "${PREFIX}/include/AdsLib/Frame.h"
+          - test -f "${PREFIX}/include/AdsLib/RegistryAccess.h"
+          - test -f "${PREFIX}/include/AdsLib/Sockets.h"
+          - test -f "${PREFIX}/include/AdsLib/wrap_endian.h"
+          - test -f "${PREFIX}/include/AdsLib/AdsFile.h"
+          - test -f "${PREFIX}/include/AdsLib/AmsConnection.h"
+          - test -f "${PREFIX}/include/AdsLib/LicenseAccess.h"
+          - test -f "${PREFIX}/include/AdsLib/RingBuffer.h"
+          - test -f "${PREFIX}/include/AdsLib/SymbolAccess.h"
+          - test -f "${PREFIX}/include/AdsLib/wrap_registry.h"
           - test -f "${PREFIX}/include/AdsLib/AdsLib.h"
+          - test -f "${PREFIX}/include/AdsLib/AmsHeader.h"
+          - test -f "${PREFIX}/include/AdsLib/Log.h"
+          - test -f "${PREFIX}/include/AdsLib/Router.h"
+          - test -f "${PREFIX}/include/AdsLib/wrap_socket.h"
+          - test -f "${PREFIX}/include/AdsLib/bhf/ParameterList.h"
+          - test -f "${PREFIX}/include/AdsLib/bhf/StringToInteger.h"
+          - test -f "${PREFIX}/include/AdsLib/bhf/WindowsQuirks.h"
+          - test -f "${PREFIX}/include/AdsLib/standalone/AdsDef.h"
+          - test -f "${PREFIX}/include/AdsLib/standalone/AdsLib.h"
+          - test -f "${PREFIX}/include/AdsLib/TwinCAT/AdsDef.h"
+          - test -f "${PREFIX}/include/AdsLib/TwinCAT/AdsLib.h"
           - if: linux
             then:
               - test -f "${PREFIX}/lib/libAdsLib.so"
