@@ -1,6 +1,6 @@
 context:
   name: beckhoff-ads
-  tag: 113.0.33-1
+  tag: 113.0.34-1
   version: ${{ tag | replace('-', '.') }}
 
 recipe:
@@ -9,11 +9,9 @@ recipe:
 
 source:
   url: https://github.com/Beckhoff/ADS/archive/refs/tags/${{ tag }}.tar.gz
-  sha256: 864f2440e9c5f5a79d6bf8b8cee80b5200196c2f9a19987c32ef7f33b46ea51a
-  patches:
+  sha256: 2523bbdf90b153992ced68a689c02943516ec93260b4eddd3108edc710a63596
+  patches: 
     - meson-build-install-executables.patch
-    - meson-build-rename-shared-lib.patch
-    - meson-build-create-subfolders.patch
 
 build:
   number: 0

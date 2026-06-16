@@ -1,6 +1,33 @@
---- meson.build	2026-06-02 16:30:21.126289024 +0200
-+++ meson.build	2026-06-02 16:30:21.156840857 +0200
-@@ -144,6 +144,8 @@
+--- meson.build 2026-06-16 15:14:40.310555018 +0200
++++ meson.build 2026-06-16 15:18:49.940657259 +0200
+@@ -130,6 +130,8 @@
+   include_directories: inc,
+   dependencies: libs,
+   link_with: adslib,
++  install: true,
++  install_dir: get_option('bindir'),
+ )
+ 
+ adslibooitest = executable('AdsLibOOITest',
+@@ -137,6 +139,8 @@
+   include_directories: inc,
+   dependencies: libs,
+   link_with: adslib,
++  install: true,
++  install_dir: get_option('bindir'),
+ )
+ 
+ adstest_files = files([
+@@ -149,6 +153,8 @@
+   include_directories: inc,
+   dependencies: libs,
+   link_with: adslib,
++  install: true,
++  install_dir: get_option('bindir'),
+ )
+ 
+ adstool = executable('adstool',
+@@ -156,6 +162,8 @@
    include_directories: inc,
    dependencies: libs,
    link_with: adslib,
@@ -9,7 +36,7 @@
  )
  
  if get_option('tcadsdll_include') != ''
-@@ -174,6 +176,8 @@
+@@ -186,6 +194,7 @@
        tcadsdll_deps
      ],
      link_with: tcadslib,
@@ -18,3 +45,11 @@
    )
  
    tcadstest = executable('tcAdsTest',
+@@ -199,6 +208,7 @@
+       tcadsdll_deps
+     ],
+     link_with: tcadslib,
++    install: true,
+   )
+ endif
+ 
