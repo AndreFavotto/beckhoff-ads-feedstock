@@ -1,0 +1,18 @@
+--- a/meson.build	2026-07-21 11:12:04.052179600 +0200
++++ b/meson.build	2026-07-21 11:24:21.382526858 +0200
+@@ -11,6 +11,7 @@
+ # some hardening options
+ add_project_arguments('-D_FORTIFY_SOURCE=2', language: 'cpp')
+ add_project_arguments(get_option('default_loglevel'), language: 'cpp')
++add_project_arguments('-DBHF_ADS_EXPORT_C', language: 'cpp')
+ 
+ common_files = files([
+   'AdsLib/AdsDef.cpp',
+@@ -209,6 +210,7 @@
+   filebase: 'AdsLib',
+   subdirs: 'AdsLib',
+   libraries: install_libs,
++  extra_cflags: ['-DBHF_ADS_EXPORT_C'],
+   version: meson.project_version(),
+ )
+ 
