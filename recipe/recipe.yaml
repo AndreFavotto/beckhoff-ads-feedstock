@@ -100,12 +100,13 @@ outputs:
       - requirements:
           build:
             - ${{ compiler('cxx') }}
+            - pkg-config
         script:
           - if: linux or osx
             then:
-              - echo '#include <AdsLib/AdsLib.h>' > /tmp/test_sym.cpp
+              - echo '#include <AdsLib.h>' > /tmp/test_sym.cpp
               - echo 'void test(){ AdsSyncSetTimeoutEx(0, 5000); }' >> /tmp/test_sym.cpp
-              - $CXX -I"${PREFIX}/include" -fPIC -shared /tmp/test_sym.cpp -L"${PREFIX}/lib" -lAdsLib -o /tmp/test_sym.so
+              - $CXX $(pkg-config --cflags AdsLib) -fPIC -shared /tmp/test_sym.cpp $(pkg-config --libs AdsLib) -o /tmp/test_sym.so
 
   - package:
       name: ${{ name }}-static
