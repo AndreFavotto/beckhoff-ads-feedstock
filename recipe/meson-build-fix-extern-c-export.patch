@@ -1,0 +1,20 @@
+--- a/meson.build
++++ b/meson.build
+@@ -103,6 +103,10 @@ libs = [
+ 
+ adslib = static_library('AdsLib',
+   [common_files, router_files],
++  cpp_args: [
++    '-DBHF_ADS_EXPORT_C',
++    '-DBHF_ADS_USE_TWINCAT_ORDER',
++  ],
+   include_directories: inc,
+   install: true,
+ )
+@@ -209,6 +213,7 @@ endif
+   filebase: 'AdsLib',
+   subdirs: 'AdsLib',
+   libraries: install_libs,
++  extra_cflags: ['-DBHF_ADS_EXPORT_C'],
+   version: meson.project_version(),
+ )

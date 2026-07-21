@@ -10,11 +10,12 @@ recipe:
 source:
   url: https://github.com/Beckhoff/ADS/archive/refs/tags/${{ tag }}.tar.gz
   sha256: 2523bbdf90b153992ced68a689c02943516ec93260b4eddd3108edc710a63596
-  patches: 
+  patches:
     - meson-build-install-executables.patch
+    - meson-build-fix-extern-c-export.patch
 
 build:
-  number: 0
+  number: 1
   skip:
     - win
   script: |
@@ -86,10 +87,25 @@ outputs:
           - if: linux
             then:
               - test -f "${PREFIX}/lib/libAdsLib.so"
+              - nm -D "${PREFIX}/lib/libAdsLib.so" | grep -q " T AdsSyncSetTimeoutEx"
+              - nm -D "${PREFIX}/lib/libAdsLib.so" | grep -q " T AdsSyncGetTimeoutEx"
+              - nm -D "${PREFIX}/lib/libAdsLib.so" | grep -q " T AdsPortOpenEx"
           - if: osx
             then:
               - test -f "${PREFIX}/lib/libAdsLib.dylib"
+              - nm "${PREFIX}/lib/libAdsLib.dylib" | grep -q "_AdsSyncSetTimeoutEx"
+              - nm "${PREFIX}/lib/libAdsLib.dylib" | grep -q "_AdsSyncGetTimeoutEx"
+              - nm "${PREFIX}/lib/libAdsLib.dylib" | grep -q "_AdsPortOpenEx"
           - adstool --help
+      - requirements:
+          build:
+            - ${{ compiler('cxx') }}
+        script:
+          - if: linux or osx
+            then:
+              - echo '#include <AdsLib/AdsLib.h>' > /tmp/test_sym.cpp
+              - echo 'void test(){ AdsSyncSetTimeoutEx(0, 5000); }' >> /tmp/test_sym.cpp
+              - $CXX -I"${PREFIX}/include" -fPIC -shared /tmp/test_sym.cpp -L"${PREFIX}/lib" -lAdsLib -o /tmp/test_sym.so
 
   - package:
       name: ${{ name }}-static
