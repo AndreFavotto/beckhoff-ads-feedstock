@@ -1,0 +1,59 @@
+--- a/AdsLib/AdsLib.h
++++ b/AdsLib/AdsLib.h
+@@ -13,7 +13,7 @@
+ 
+ #include "Sockets.h"
+ 
+-#ifdef BHF_ADS_EXPORT_C
++#ifdef __cplusplus
+ extern "C" {
+ #endif
+ long AdsAddRoute(AmsNetId ams, const char *ip);
+@@ -142,7 +142,7 @@ long AdsSyncDelDeviceNotificationReqEx(long port, const AmsAddr *pAddr,
+  * @return [ADS Return Code](https://infosys.beckhoff.com/content/1031/tcadscommon/html/ads_returncodes.htm?id=1666172286265530469)
+  */
+ long AdsSyncGetTimeoutEx(long port, uint32_t *timeout);
+-#ifdef BHF_ADS_EXPORT_C
++#ifdef __cplusplus
+ }
+ #endif
+ 
+--- a/AdsLib/standalone/AdsLib.h
++++ b/AdsLib/standalone/AdsLib.h
+@@ -6,7 +6,7 @@
+ 
+ #include "AdsDef.h"
+ 
+-#ifdef BHF_ADS_EXPORT_C
++#ifdef __cplusplus
+ extern "C" {
+ #endif
+ /**
+@@ -41,6 +41,6 @@ long AdsGetLocalAddressEx(long port, AmsAddr *pAddr);
+  * @return [ADS Return Code](https://infosys.beckhoff.com/content/1031/tcadscommon/html/ads_returncodes.htm?id=1666172286265530469)
+  */
+ long AdsSyncSetTimeoutEx(long port, uint32_t timeout);
+-#ifdef BHF_ADS_EXPORT_C
++#ifdef __cplusplus
+ }
+ #endif
+
+--- a/AdsLib/standalone/AdsLib.cpp
++++ b/AdsLib/standalone/AdsLib.cpp
+@@ -54,7 +54,7 @@ void SetLocalAddress(const AmsNetId ams)
+ }
+ }
+ 
+-#ifdef BHF_ADS_EXPORT_C
++#ifdef __cplusplus
+ extern "C" {
+ #endif
+ long AdsPortCloseEx(long port)
+@@ -289,6 +289,6 @@ long AdsSyncSetTimeoutEx(long port, uint32_t timeout)
+ 	ASSERT_PORT(port);
+ 	return GetRouter().SetTimeout((uint16_t)port, timeout);
+ }
+-#ifdef BHF_ADS_EXPORT_C
++#ifdef __cplusplus
+ }
+ #endif
